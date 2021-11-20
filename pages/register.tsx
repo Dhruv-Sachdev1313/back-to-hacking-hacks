@@ -1,45 +1,57 @@
 import React from "react";
 import { useFormik } from "formik";
-import {} from "./hooks/useAuth";
+import { useAuth } from "./hooks/useAuth";
 
-const SignupForm = () => {
-  const formik = useFormik({
+interface SignupFormProps {
+
+}
+
+interface Signup {
+  email: string,
+  password: string
+}
+
+
+const SignupForm: React.FunctionComponent<SignupFormProps> = () => {
+
+  const [error, setError ] = React.useState<null | string>(null);
+  const { emailRegister } = useAuth()
+
+  const { handleSubmit, handleChange, values } = useFormik({
     initialValues: {
-      firstName: "",
-      lastName: "",
-      email: ""
+      email: "",
+      password: ""
     },
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+    onSubmit: async ({ email, password }: Signup) => {
+      emailRegister!(email, password)
+        .then((res) => {
+          
+        })
+        .catch((error: string) => setError(JSON.stringify(error)))
     }
   });
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <label htmlFor="firstName">First Name</label>
-      <input
-        id="firstName"
-        name="firstName"
-        type="text"
-        onChange={formik.handleChange}
-        value={formik.values.firstName}
-      />
-      <label htmlFor="lastName">Last Name</label>
-      <input
-        id="lastName"
-        name="lastName"
-        type="text"
-        onChange={formik.handleChange}
-        value={formik.values.lastName}
-      />
-      <label htmlFor="email">Email Address</label>
+    <form onSubmit={handleSubmit}>
+      <label htmlFor="email">Email</label>
       <input
         id="email"
         name="email"
-        type="email"
-        onChange={formik.handleChange}
-        value={formik.values.email}
+        type="text"
+        onChange={handleChange}
+        value={values.email}
       />
+      <label htmlFor="password">Password</label>
+      <input
+        id="password"
+        name="password"
+        type="text"
+        onChange={handleChange}
+        value={values.password}
+      />
+      {error && error}
       <button type="submit">Submit</button>
     </form>
   );
 };
+
+export default SignupForm;
