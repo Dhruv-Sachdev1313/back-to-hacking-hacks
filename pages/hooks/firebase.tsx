@@ -8,17 +8,8 @@ import {
   import { getAuth, Auth } from "firebase/auth";
   import { Firestore, getFirestore } from "firebase/firestore";
   
-  interface FirebaseConfig {
-    apiKey: string;
-    authDomain: string;
-    projectId: string;
-    storageBucket: string;
-    messagingSenderId: string;
-    appId: string;
-    measurementId: string;
-  }
-  
-  const firebaseConfig: FirebaseConfig = {
+ 
+  const firebaseConfig: FirebaseOptions = {
     apiKey: "AIzaSyAQDUIf4ejGt0rhFVy2zZJWqN9stVrLKsQ",
     authDomain: "backtohackinghacks.firebaseapp.com",
     projectId: "backtohackinghacks",
