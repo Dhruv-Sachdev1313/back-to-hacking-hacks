@@ -24,7 +24,7 @@ interface Course {
 
 interface FirestoreContextProps {
     addTeacher: ((teacherUID: string, grade: number, subject: number ) => Promise<void>) | null,
-    addStudent: ((studentUID: string, grade: number) => Promise<void>),
+    addStudent: ((studentUID: string, grade: number) => Promise<void>) | null,
     getStudent: ((studentUID: string) => Promise<Student>) | null,
     getTeacher: ((teacherUID: string) => Promise<Teacher>) | null,
     addCourse: ((teacherUID: string, subject: string, grade: number) => Promise<void>) | null,
@@ -82,8 +82,7 @@ async function getTeacherAsync(teacherUID: string)
     })
 }
 
-async function addCourseAsync(teacherUID: string, subject: string, grade: number) 
-{
+async function addCourseAsync(teacherUID: string, subject: string, grade: number) {
     
         const teacherRef = doc(firestore, 'teachers', teacherUID)
         const teacherInfo = await getDoc(teacherRef)
@@ -97,8 +96,7 @@ async function addCourseAsync(teacherUID: string, subject: string, grade: number
     
 }
 
-async function getCoursesAsync(subject: string, grade: number) 
-{
+async function getCoursesAsync(subject: string, grade: number) {
     
     return new Promise<Course>(async (res, rej) => {
         const coursesRef = collection(firestore, 'courses')
@@ -122,8 +120,7 @@ interface Responce {
     uid: string
 }
 
-async function enrollCourseAsync(studentUID: string, teacherUID: string) 
-{
+async function enrollCourseAsync(studentUID: string, teacherUID: string) {
         const studentRef = doc(firestore, 'students', studentUID)
         const teacherRef = doc(firestore, 'teachers', teacherUID)
         const coursesRef = doc(firestore, 'courses', teacherUID)
@@ -199,20 +196,72 @@ async function getStudentCourses(uid: string) {
     })
 }
 
+async function getStudentCoursesAsync(uid: string) {
+    return new Promise<string[]>( async (resolve, reject) => {
+        await getStudentAsync(uid)
+            .then(res => {
+                const { classes } = res
+                resolve(classes)
+            })
+            .catch(res => {
+                throw new Error('No student found')
+            })
+    })
+}
+
+async function getTeacherCoursesAsync(uid: string) {
+    return new Promise<string[]>( async (resolve, reject ) => {
+        await getTeacherAsync(uid)
+            .then(res => {
+                const { courses } = res
+                resolve(courses)
+            })
+            .catch(error => {
+                throw new Error('No teacher found')
+            })
+    })
+}
+
+interface FirestoreProviderProps {
+    children: React.ReactNode
+}
+
 const FirestoreContext = createContext<FirestoreContextProps>({
-    addCourse: addCourseAsync,
-    addStudent: addStudentFunc,
-    addTeacher: addTeacherFunc,
-    enrollCourse: enrollCourseAsync,
-    getCourses: getCoursesAsync,
-    getStudent: getStudentAsync,
+    addCourse: null,
+    addStudent: null,
+    addTeacher: null,
+    enrollCourse: null,
+    getCourses: null,
+    getStudent: null,
     getStudentCourses: null,
     getTeacherCourses: null,
-    getTeacher: getTeacherAsync,
+    getTeacher: null
 })
 
-export default function FirestoreProvider() {
+const FirestoreProvider: React.FunctionComponent<FirestoreProviderProps> =  ({ children }) => {
     return (
-
+        <FirestoreContext.Provider value={{
+            addCourse: addCourseAsync,
+            addStudent: addStudentFunc,
+            addTeacher: addTeacherFunc,
+            enrollCourse: enrollCourseAsync,
+            getCourses: getCoursesAsync,
+            getStudent: getStudentAsync,
+            getStudentCourses: getStudentCoursesAsync,
+            getTeacherCourses: getTeacherCoursesAsync,
+            getTeacher: getTeacherAsync,
+        }}>
+            {children}
+        </FirestoreContext.Provider>
     )
 }
+
+type UseFirestore = (() => FirestoreContextProps)
+
+const useFirestore: UseFirestore = () =>  { 
+    return useContext(FirestoreContext) 
+};
+
+export { useFirestore }
+
+export default FirestoreProvider;
