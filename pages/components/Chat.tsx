@@ -7,7 +7,7 @@ import { firestore } from "../hooks/firebase";
 import {collection, doc, getDoc, orderBy, limit, query} from 'firebase/firestore';
 
 
-export default function Chat () {
+export default function Chat (course_id: string}) {
     const dummy = useRef();
     const messagesRef = doc('messages', course_id);
     const q = query(messagesRef, orderBy('createdAt'), limit(25));
