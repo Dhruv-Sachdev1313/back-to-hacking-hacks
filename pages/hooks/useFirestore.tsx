@@ -3,8 +3,8 @@ import { firestore } from "./firebase";
 import { collection, getDocs, CollectionReference } from "firebase/firestore"; 
 
 interface FirestoreContextProps {
-    addTeacher: ((uid: string, grade: number, ) => Promise<void>) | null,
-    addStudent: ((uid: string, ))
+    addTeacher: ((uid: string, grade: number, subject: number ) => Promise<void>) | null,
+    addStudent: ((uid: string, grade: number))
     getUser: ((uid: string))
 }
 

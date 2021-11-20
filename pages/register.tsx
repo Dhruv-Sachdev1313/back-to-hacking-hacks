@@ -25,7 +25,7 @@ const SignupForm: React.FunctionComponent<SignupFormProps> = () => {
     onSubmit: async ({ email, password }: Signup) => {
       emailRegister!(email, password)
         .then((res) => {
-          
+
         })
         .catch((error: string) => setError(JSON.stringify(error)))
     }
