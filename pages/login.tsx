@@ -15,7 +15,7 @@ const Login = () => {
       password: ''
     })
 
-    function login(user)) {
+    function login(user) {
 
     }
 
