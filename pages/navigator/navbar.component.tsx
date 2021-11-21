@@ -19,7 +19,7 @@ const NavbarItem: FunctionComponent<NavbarProps> = props => {
 }
 
 const NavItem = tw.div`
-  p-3 bg-green-300 text-white border-green-300 hover:cursor-pointer rounded-lg
+  p-3 text-white hover:cursor-pointer hover:bg-green-500 rounded-lg
 `
 
 export default NavbarItem

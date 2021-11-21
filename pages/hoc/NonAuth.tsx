@@ -2,7 +2,7 @@ import React from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { useRouter, NextRouter } from 'next/router';
 import { useFirestore } from '../hooks/useFirestore';
-import Navbar from '../navigator/navbar';
+import { NonAuthNavbar } from '../navigator/navbar';
 import { useRole } from '../hooks/useRole';
 
 const withAuthentication = (Component: React.ReactNode) => {
@@ -24,8 +24,8 @@ const withAuthentication = (Component: React.ReactNode) => {
 
         return (
             <> 
-                <Navbar />
-                {role !== null && <Component />}
+                <NonAuthNavbar />
+                <Component />
             </>
         )
     }

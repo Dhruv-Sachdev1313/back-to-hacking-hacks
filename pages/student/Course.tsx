@@ -26,9 +26,9 @@ export const Course: React.FunctionComponent<CourseType> = ({ teacherUID, studen
     }
     
     return (
-        <div onClick={handleClick} >
+        <button onClick={handleClick} >
             <h1>Grade {grade} {subject}</h1>
             <p>Taught by {teacher}</p>
-        </div>
+        </button>
     )
 }

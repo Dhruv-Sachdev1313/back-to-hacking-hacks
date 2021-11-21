@@ -2,7 +2,7 @@ import React from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { useRouter, NextRouter } from 'next/router';
 import { useFirestore } from '../hooks/useFirestore';
-import Navbar from '../navigator/navbar';
+import { StudentNavbar } from '../navigator/navbar';
 import { useRole } from '../hooks/useRole';
 
 const withStudent = (Component: React.ReactNode) => {
@@ -26,7 +26,7 @@ const withStudent = (Component: React.ReactNode) => {
 
         return (
             <> 
-                <Navbar />
+                <StudentNavbar />
                 <Component />
             </>
         )

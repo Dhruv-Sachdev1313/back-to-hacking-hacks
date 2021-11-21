@@ -8,39 +8,57 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../hooks/firebase';
 import { useRole } from '../hooks/useRole';
 
-interface AuthNavbarProps { 
-    role: string
-}
 
-const AuthNavbar: React.FunctionComponent<AuthNavbarProps> = ({ role }: AuthNavbarProps) => {
-   return (
-       <NavWrapper>
-           {role === 'tutor' ? (
-               TutorNavbarItems.map(tutor => {
-                   return (<NavbarItem
-                       {...tutor}
-                   />)
-               })
-           ): null}
-           
-           {role === 'student' ? (
-               StudentNavbarItems.map(student => {
-                   return ( <NavbarItem 
-                       {...student}
-                   /> )
-               })
-           ): null}
-       </NavWrapper>
-   )
-}
+export const TutorNavbar = () => {
 
-const NonAuthNavbar = () => {
+    const { loggedIn, signOut, currentUser } = useAuth()
+ 
     return (
         <NavWrapper>
-            {NonAuthItems.map(i => {
+            {TutorNavbarItems.map((props, k) => {
                 return (
                     <NavbarItem 
-                      {...i}
+                        key={k}
+                        {...props}
+                    />
+                )
+            })}
+            <button onClick={signOut!} >Sign Out</button>
+        </NavWrapper>
+    )
+}
+
+export const StudentNavbar = () => {
+
+    const { loggedIn, signOut, currentUser } = useAuth()
+
+    return (
+        <NavWrapper>
+            {StudentNavbarItems.map((props, k) => {
+                return (
+                    <NavbarItem 
+                        key={k}
+                        {...props}
+                    />
+                )
+            })}
+            <button onClick={signOut!} >Sign Out</button>
+        </NavWrapper>
+    )
+}
+
+export const NonAuthNavbar = () => {
+
+
+    const { loggedIn, signOut, currentUser } = useAuth()
+    
+    return (
+        <NavWrapper>
+            {NonAuthItems.map((props, k) => {
+                return (
+                    <NavbarItem 
+                      {...props}
+                      key={k}
                     />
                 )
             })}
@@ -48,22 +66,8 @@ const NonAuthNavbar = () => {
     )
 }
 
-const Navbar = () => {
 
-    const { loggedIn, signOut, currentUser } = useAuth()
-    const role = useRole()
-
-
-    return (
-        <NavWrapper>
-            {loggedIn ? <AuthNavbar role={role!} /> : <NonAuthNavbar />}
-            {loggedIn && <button onClick={signOut!} >Sign Out</button>}
-        </NavWrapper>
-    )
-}
 
 const NavWrapper = tw.div`
- flex-row bg-green-400 
+flex flex-row-reverse bg-green-400 
 `
-
-export default Navbar

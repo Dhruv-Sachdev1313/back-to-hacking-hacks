@@ -21,12 +21,12 @@ export default function Chat ({ course_id }: { course_id: string}) {
       const [formValue, setFormValue] = useState('');
       const [user] = useAuthState(auth);
 
-      const sendMessage = async (e) => {
+      const sendMessage = async (e:any) => {
         e.preventDefault();
 
       const { uid, photoURL } = auth.currentUser;
 
-      await messagesRef.add({
+      await messages.add({
         text: formValue,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         uid,

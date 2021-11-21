@@ -2,7 +2,7 @@ import React from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { useRouter, NextRouter } from 'next/router';
 import { useFirestore } from '../hooks/useFirestore';
-import Navbar from '../navigator/navbar';
+import { TutorNavbar } from '../navigator/navbar';
 import { useRole } from '../hooks/useRole';
 
 const withTutor = (Component: React.ReactNode) => {
@@ -14,7 +14,7 @@ const withTutor = (Component: React.ReactNode) => {
         
         React.useEffect(() => {
 
-            if(!loggedIn) {
+            if(!role == null) {
                 Router.replace('/login')
                 if(role == 'student') {
                     Router.replace('/student/browse')
@@ -24,7 +24,7 @@ const withTutor = (Component: React.ReactNode) => {
 
         return (
             <> 
-                <Navbar />
+                <TutorNavbar />
                 <Component />
             </>
         )
