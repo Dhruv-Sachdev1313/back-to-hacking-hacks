@@ -117,6 +117,32 @@ export async function enrollCourseAsync(studentUID: string, teacherUID: string) 
             prevTrueCourses = cData.students
         }
 
+       
+
+        if(!prevTrueCourses) {
+            prevTrueCourses = []
+        } else if (prevTrueCourses.includes(studentUID)) {
+            prevTrueCourses = prevTrueCourses.filter(e => {
+                return e != studentUID
+            })
+        }
+
+        if(!prevCourses) {
+            prevTrueCourses = []
+        } else if (prevTrueCourses.includes(studentUID)) {
+            prevTrueCourses = prevTrueCourses.filter(e => {
+                return e != studentUID
+            })
+        }
+
+        if(!prevClasses) {
+            prevTrueCourses = []
+        } else if (prevTrueCourses.includes(teacherUID)) {
+            prevTrueCourses = prevTrueCourses.filter(e => {
+                return e != teacherUID
+            })
+        }
+
         console.log({
             prevClasses,
             prevCourses,
@@ -138,13 +164,7 @@ export async function enrollCourseAsync(studentUID: string, teacherUID: string) 
             ]
         })
 
-        if(!prevTrueCourses) {
-            prevTrueCourses = []
-        } else if (prevTrueCourses.includes(studentUID)) {
-            prevTrueCourses = prevTrueCourses.filter(e => {
-                return e != studentUID
-            })
-        }
+        
 
         await updateDoc(coursesRef, {
             students: [
