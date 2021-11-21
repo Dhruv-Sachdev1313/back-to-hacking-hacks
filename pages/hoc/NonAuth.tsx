@@ -25,7 +25,7 @@ const withAuthentication = (Component: React.ReactNode) => {
         return (
             <> 
                 <Navbar />
-                {role !== null && <Component />}
+                {role == null && <Component />}
             </>
         )
     }

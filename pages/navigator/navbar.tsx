@@ -16,17 +16,19 @@ const AuthNavbar: React.FunctionComponent<AuthNavbarProps> = ({ role }: AuthNavb
    return (
        <NavWrapper>
            {role === 'tutor' ? (
-               TutorNavbarItems.map(tutor => {
+               TutorNavbarItems.map((tutor, k) => {
                    return (<NavbarItem
                        {...tutor}
+                       key={k}
                    />)
                })
            ): null}
            
            {role === 'student' ? (
-               StudentNavbarItems.map(student => {
+               StudentNavbarItems.map((student, k) => {
                    return ( <NavbarItem 
                        {...student}
+                       key={k}
                    /> )
                })
            ): null}
@@ -37,10 +39,11 @@ const AuthNavbar: React.FunctionComponent<AuthNavbarProps> = ({ role }: AuthNavb
 const NonAuthNavbar = () => {
     return (
         <NavWrapper>
-            {NonAuthItems.map(i => {
+            {NonAuthItems.map((i, k) => {
                 return (
                     <NavbarItem 
                       {...i}
+                      key={k}
                     />
                 )
             })}

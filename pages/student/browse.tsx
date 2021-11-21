@@ -55,8 +55,7 @@ const Browse = () => {
                 <option value="science">Science</option>
             </select>
             <button onClick={generateCourse}>Find Courses</button>
-            <button onClick={signOut!}>Sign Out</button>
-            {JSON.stringify(courses)}
+            <button className='p-3' onClick={signOut!}>Sign Out</button>
             {courses.map((i, k) => {
                 return (
                     <Courses 
@@ -67,7 +66,6 @@ const Browse = () => {
                     />
                 )
             })}
-            {'Hello World this is ' + role}
         </div>
     )
 }

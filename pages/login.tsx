@@ -41,11 +41,12 @@ const LoginInForm: React.FunctionComponent<SignupFormProps> = () => {
             Router.push('/student/browse')
           }
         })
-        .catch((error) => setError(error))
+        .catch((error) => setError(JSON.stringify(error)))
     }
   });
   return (
     <form onSubmit={handleSubmit}>
+      Hello World
       <label htmlFor="email">Email</label>
       <input
         id="email"
