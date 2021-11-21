@@ -12,8 +12,11 @@ interface AuthNavbarProps {
     role: string
 }
 
-const AuthNavbar: React.FunctionComponent<AuthNavbarProps> = ({ role }: AuthNavbarProps) => {
-   return (
+const AuthNavbar: React.FunctionComponent<AuthNavbarProps> = ({  }: AuthNavbarProps) => {
+    
+    const role = useRole()
+   
+    return (
        <NavWrapper>
            {role === 'tutor' ? (
                TutorNavbarItems.map((tutor, k) => {
