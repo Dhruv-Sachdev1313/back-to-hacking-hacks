@@ -5,32 +5,34 @@ import { useFirestore } from '../hooks/useFirestore';
 import Navbar from '../navigator/navbar';
 import { useRole } from '../hooks/useRole';
 
-const withAuthentication = (Component: React.ReactNode) => {
-    function AuthenticationHOC() {
+const withStudent = (Component: React.ReactNode) => {
+    function StudentHOC () {
         
         const Router: NextRouter = useRouter()
         const { loggedIn, currentUser } = useAuth()
         const role = useRole()
 
         React.useEffect(() => {
-            if(role) {
-                if(role === 'tutor') {
+
+
+            if(loggedIn) {
+                if(role == 'tutor') {
                     Router.replace('/tutor/students')
-                } else if ( role == 'student ') {
-                    Router.replace('/student/browse')
                 }
+            } else {
+                Router.replace('/login')
             }
         }, [loggedIn, role])
 
         return (
             <> 
                 <Navbar />
-                {role !== null && <Component />}
+                <Component />
             </>
         )
     }
 
-    return AuthenticationHOC
+    return StudentHOC
 }
 
-export default withAuthentication
+export default withStudent
